@@ -1,0 +1,156 @@
+﻿<Window x:Class="JoystickMapperUI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="JoyDebouncer" Height="560" Width="520"
+        WindowStartupLocation="CenterScreen" Closing="Window_Closing">
+    <Grid Margin="20">
+        <StackPanel VerticalAlignment="Center">
+
+            <!-- Physical Controller Selection Zone -->
+            <Border Background="#F4F6F7" BorderBrush="#BDC3C7" BorderThickness="1" Padding="10" CornerRadius="5" Margin="0,0,0,10">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="Device:" VerticalAlignment="Center" FontWeight="Bold" Margin="0,0,10,0"/>
+                    <ComboBox x:Name="CmbJoysticks" Grid.Column="1" VerticalAlignment="Center" Height="28"/>
+                    <Button x:Name="BtnRefreshJoysticks" Grid.Column="2" Content="🔄 Refresh" Width="75" Height="28" Margin="8,0,0,0"
+                            FontWeight="Bold" Background="#7F8C8D" Foreground="White" Click="BtnRefreshJoysticks_Click"
+                            ToolTip="Scan for connected gamepads"/>
+                </Grid>
+            </Border>
+
+            <!-- Physical & Virtual Status -->
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                <StackPanel Width="230">
+                    <TextBlock Text="Physical Controller:" FontWeight="Bold" FontSize="13"/>
+                    <TextBlock x:Name="TxtPhysicalStatus" Text="Not Connected" Foreground="Red" FontSize="12"/>
+                </StackPanel>
+                <StackPanel Width="230">
+                    <TextBlock Text="Virtual Controller Status:" FontWeight="Bold" FontSize="13"/>
+                    <TextBlock x:Name="TxtVirtualStatus" Text="Disconnected" Foreground="Red" FontSize="12"/>
+                </StackPanel>
+            </StackPanel>
+
+            <!-- Profile Management Zone -->
+            <Border Background="#F4F6F7" BorderBrush="#BDC3C7" BorderThickness="1" Padding="10" CornerRadius="5" Margin="0,0,0,10">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="Profile:" VerticalAlignment="Center" FontWeight="Bold" Margin="0,0,10,0"/>
+                    <ComboBox x:Name="CmbProfiles" Grid.Column="1" VerticalAlignment="Center" Height="28" IsEditable="True"/>
+                    <Button x:Name="BtnLoadProfile" Grid.Column="2" Content="📥 Load" Width="55" Height="28" Margin="5,0,0,0"
+                            FontWeight="Bold" Background="#8E44AD" Foreground="White" Click="BtnLoadProfile_Click"/>
+                    <Button x:Name="BtnNewProfile" Grid.Column="3" Content="➕ New" Width="55" Height="28" Margin="5,0,0,0"
+                            FontWeight="Bold" Background="#27AE60" Foreground="White" Click="BtnNewProfile_Click"/>
+                    <Button x:Name="BtnSaveProfile" Grid.Column="4" Content="💾 Save" Width="55" Height="28" Margin="5,0,0,0"
+                            FontWeight="Bold" Background="#2980B9" Foreground="White" Click="BtnSaveProfile_Click"/>
+                    <Button x:Name="BtnDeleteProfile" Grid.Column="5" Content="🗑️ Del" Width="55" Height="28" Margin="5,0,0,0"
+                            FontWeight="Bold" Background="#C0392B" Foreground="White" Click="BtnDeleteProfile_Click"/>
+                </Grid>
+            </Border>
+
+            <!-- Deadzone Customization Section -->
+            <Border Background="#F9F9F9" BorderBrush="#E0E0E0" BorderThickness="1" Padding="10" CornerRadius="5" Margin="0,0,0,10">
+                <StackPanel>
+                    <CheckBox x:Name="ChkUseCustomDz" Content="Enable Custom Deadzone (App Level)" 
+                              IsChecked="False" FontWeight="Bold" Margin="0,0,0,8"
+                              ToolTip="Check to use app-level deadzone. Uncheck to use your controller's own software."/>
+
+                    <!-- Left Stick Deadzone -->
+                    <Grid Margin="0,2,0,5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="80"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="60"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Left Inner:" VerticalAlignment="Center" FontSize="12"/>
+                        <Slider x:Name="SliderLeftInner" Grid.Column="1" Minimum="0" Maximum="50" Value="5" TickFrequency="1" IsSnapToTickEnabled="True" VerticalAlignment="Center" Margin="5,0"/>
+                        <TextBlock x:Name="LblLeftInnerVal" Grid.Column="2" Text="{Binding ElementName=SliderLeftInner, Path=Value, StringFormat={}{0}%}" VerticalAlignment="Center" TextAlignment="Right" FontSize="12" FontWeight="SemiBold"/>
+                    </Grid>
+
+                    <Grid Margin="0,2,0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="80"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="60"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Left Outer:" VerticalAlignment="Center" FontSize="12"/>
+                        <Slider x:Name="SliderLeftOuter" Grid.Column="1" Minimum="50" Maximum="100" Value="100" TickFrequency="1" IsSnapToTickEnabled="True" VerticalAlignment="Center" Margin="5,0"/>
+                        <TextBlock x:Name="LblLeftOuterVal" Grid.Column="2" Text="{Binding ElementName=SliderLeftOuter, Path=Value, StringFormat={}{0}%}" VerticalAlignment="Center" TextAlignment="Right" FontSize="12" FontWeight="SemiBold"/>
+                    </Grid>
+
+                    <Separator Margin="0,2,0,6" Background="#E0E0E0"/>
+
+                    <!-- Right Stick Deadzone -->
+                    <Grid Margin="0,2,0,5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="80"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="60"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Right Inner:" VerticalAlignment="Center" FontSize="12"/>
+                        <Slider x:Name="SliderRightInner" Grid.Column="1" Minimum="0" Maximum="50" Value="5" TickFrequency="1" IsSnapToTickEnabled="True" VerticalAlignment="Center" Margin="5,0"/>
+                        <TextBlock x:Name="LblRightInnerVal" Grid.Column="2" Text="{Binding ElementName=SliderRightInner, Path=Value, StringFormat={}{0}%}" VerticalAlignment="Center" TextAlignment="Right" FontSize="12" FontWeight="SemiBold"/>
+                    </Grid>
+
+                    <Grid Margin="0,2,0,2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="80"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="60"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Right Outer:" VerticalAlignment="Center" FontSize="12"/>
+                        <Slider x:Name="SliderRightOuter" Grid.Column="1" Minimum="50" Maximum="100" Value="100" TickFrequency="1" IsSnapToTickEnabled="True" VerticalAlignment="Center" Margin="5,0"/>
+                        <TextBlock x:Name="LblRightOuterVal" Grid.Column="2" Text="{Binding ElementName=SliderRightOuter, Path=Value, StringFormat={}{0}%}" VerticalAlignment="Center" TextAlignment="Right" FontSize="12" FontWeight="SemiBold"/>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- Debounce & Performance Settings -->
+            <Grid Margin="0,0,0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Border Background="#F9F9F9" BorderBrush="#E0E0E0" BorderThickness="1" Padding="8" CornerRadius="5" Margin="0,0,5,0">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBlock Text="Debounce:" VerticalAlignment="Center" FontWeight="SemiBold" FontSize="12"/>
+                        <TextBox x:Name="TxtDebounceMs" Text="50" Width="40" Margin="8,0,3,0" 
+                                 HorizontalContentAlignment="Center" VerticalContentAlignment="Center" 
+                                 FontSize="12" PreviewTextInput="TxtDebounceMs_PreviewTextInput"/>
+                        <TextBlock Text="ms" VerticalAlignment="Center" Foreground="Gray" FontSize="12"/>
+                    </StackPanel>
+                </Border>
+
+                <Border Background="#F9F9F9" BorderBrush="#E0E0E0" BorderThickness="1" Padding="8" CornerRadius="5" Grid.Column="1" Margin="5,0,0,0">
+                    <CheckBox x:Name="ChkHighPerformance" Content="High Performance (CPU+)" 
+                              IsChecked="False" FontWeight="SemiBold" VerticalAlignment="Center" FontSize="12"/>
+                </Border>
+            </Grid>
+
+            <!-- Button Mapping Setup Button -->
+            <Button x:Name="BtnOpenMapping" Content="⚙ Button Mapping Setup" Height="30" Margin="0,0,0,10"
+                    FontSize="12" FontWeight="SemiBold" Background="#34495E" Foreground="White" Click="BtnOpenMapping_Click"/>
+
+            <!-- Start / Stop Controls -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button x:Name="BtnStart" Content="START" Width="110" Height="35" Margin="5" 
+                        FontSize="13" FontWeight="Bold" Background="#2ECC71" Foreground="White" Click="BtnStart_Click"/>
+                <Button x:Name="BtnStop" Content="STOP" Width="110" Height="35" Margin="5" 
+                        FontSize="13" FontWeight="Bold" Background="#E74C3C" Foreground="White" IsEnabled="False" Click="BtnStop_Click"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>
