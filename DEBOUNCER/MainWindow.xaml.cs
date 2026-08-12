@@ -19,7 +19,7 @@ using SharpDX.DirectInput;
 namespace JoystickMapperUI
 {
     // =========================================================
-    // คลาสเก็บข้อมูลจอยสำหรับใส่ใน ComboBox
+    // Joystick data class for populating the ComboBox
     // =========================================================
     public class JoystickItem
     {
@@ -33,7 +33,7 @@ namespace JoystickMapperUI
     }
 
     // =========================================================
-    // คลาสจัดการ Config รวม Property สำหรับ Mapping และ Deadzone
+    // Config management class including Mapping and Deadzone properties
     // =========================================================
     public class ControllerConfig
     {
@@ -55,10 +55,10 @@ namespace JoystickMapperUI
         public int BtnY { get; set; } = 3;
         public int BtnLB { get; set; } = 4;
         public int BtnRB { get; set; } = 5;
-        public int BtnLT { get; set; } = 6; // ปุ่ม Digital LT
-        public int BtnRT { get; set; } = 7; // ปุ่ม Digital RT
-        public int BtnShare { get; set; } = 8; // ปุ่ม Share / Capture
-        public int BtnBack { get; set; } = 8;  // ตั้งค่าเริ่มต้นของ Select/Back เป็น Index 8
+        public int BtnLT { get; set; } = 6; // Digital LT button
+        public int BtnRT { get; set; } = 7; // Digital RT button
+        public int BtnShare { get; set; } = 8; // Share / Capture button
+        public int BtnBack { get; set; } = 8;  // Default Select/Back button index set to 8
         public int BtnStart { get; set; } = 9;
         public int BtnL3 { get; set; } = 10;
         public int BtnR3 { get; set; } = 11;
@@ -131,7 +131,7 @@ namespace JoystickMapperUI
         }
 
         // =========================================================
-        // เมธอดสแกนหาจอยจริงมาใส่ใน ComboBox
+        // Method to scan for physical joysticks and populate the ComboBox
         // =========================================================
         private void RefreshJoystickList()
         {
@@ -231,7 +231,7 @@ namespace JoystickMapperUI
                 _currentConfig = new ControllerConfig { ProfileName = profileName };
             }
 
-            // นำค่า Config มาแสดงบน UI
+            // Display Config values on UI
             TxtDebounceMs.Text = _currentConfig.DebounceMs.ToString();
             ChkHighPerformance.IsChecked = _currentConfig.IsHighPerformance;
 
@@ -305,7 +305,7 @@ namespace JoystickMapperUI
             }
             _currentConfig.IsHighPerformance = ChkHighPerformance.IsChecked ?? false;
 
-            // บันทึกค่า Deadzone จาก UI ลงใน Config
+            // Save Deadzone values from UI to Config
             _currentConfig.UseCustomDz = ChkUseCustomDz.IsChecked ?? false;
             _currentConfig.LeftInnerDz = SliderLeftInner.Value;
             _currentConfig.LeftOuterDz = SliderLeftOuter.Value;
@@ -380,7 +380,7 @@ namespace JoystickMapperUI
 
             bool isHighPerformance = ChkHighPerformance.IsChecked ?? true;
 
-            // ล็อค UI ตอนเริ่มทำงาน
+            // Lock UI when execution starts
             BtnStart.IsEnabled = false;
             BtnStop.IsEnabled = true;
             ChkHighPerformance.IsEnabled = false;
@@ -418,7 +418,7 @@ namespace JoystickMapperUI
             _cts?.Cancel();
             _isRunning = false;
 
-            // คืนค่าสถานะ UI เมื่อหยุดทำงาน
+            // Restore UI state when stopped
             BtnStart.IsEnabled = true;
             BtnStop.IsEnabled = false;
             ChkHighPerformance.IsEnabled = true;
@@ -447,8 +447,8 @@ namespace JoystickMapperUI
 
         private short ApplyDeadzone(short rawValue, double innerPercent, double outerPercent)
         {
-            // rawValue อยู่ในช่วง -32768 ถึง 32767
-            double normalized = rawValue / 32768.0; // -1.0 ถึง 1.0 (ประมาณ)
+            // rawValue is in range -32768 to 32767
+            double normalized = rawValue / 32768.0; // -1.0 to 1.0 (approximate)
             double absVal = Math.Abs(normalized);
 
             double inner = innerPercent / 100.0;
@@ -464,7 +464,7 @@ namespace JoystickMapperUI
                 return (short)(normalized > 0 ? 32767 : -32768);
             }
 
-            // Scale ค่าในช่วงระหว่าง Inner ถึง Outer ใหม่ให้เต็มช่วง
+            // Rescale values between Inner and Outer to full range
             double scaled = (absVal - inner) / (outer - inner);
             scaled = Math.Clamp(scaled, 0.0, 1.0);
 
@@ -562,7 +562,7 @@ namespace JoystickMapperUI
                     short currentZ = (short)(state.Z - 32768);
                     short currentRZ = (short)(32767 - state.RotationZ);
 
-                    // ประยุกต์ใช้ Custom Deadzone ถ้าเปิดใช้งาน
+                    // Apply Custom Deadzone if enabled
                     if (config.UseCustomDz)
                     {
                         currentX = ApplyDeadzone(currentX, config.LeftInnerDz, config.LeftOuterDz);

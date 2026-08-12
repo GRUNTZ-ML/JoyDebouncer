@@ -13,7 +13,7 @@ namespace JoystickMapperUI
             InitializeComponent();
             Config = currentConfig;
 
-            // โหลดค่า Button Indexes เดิมมาแสดงผลบน TextBox
+            // Load existing Button Indexes to display on TextBoxes
             LoadConfigToUI();
         }
 
@@ -35,7 +35,7 @@ namespace JoystickMapperUI
 
         private void BtnSave_Click(object sender, RoutedEventArgs e)
         {
-            // บันทึกค่า Index ทั้งหมดกลับเข้า Config Object
+            // Save all Index values back to the Config Object
             Config.BtnA = ParseIndex(TxtA.Text, 0);
             Config.BtnB = ParseIndex(TxtB.Text, 1);
             Config.BtnX = ParseIndex(TxtX.Text, 2);
@@ -62,7 +62,7 @@ namespace JoystickMapperUI
             return defaultValue;
         }
 
-        // ป้องกันการพิมพ์ตัวอักษร ให้กรอกได้เฉพาะตัวเลขเท่านั้น
+        // Restrict input to numeric characters only
         private void TxtNumeric_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             Regex regex = new Regex("[^0-9]+");
