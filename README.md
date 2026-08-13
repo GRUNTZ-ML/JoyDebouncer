@@ -58,7 +58,7 @@ To ensure proper functionality without input conflicts, please install the follo
 ### Step 2: Configuring JoyDebouncer
 1. Launch **JoyDebouncer** and select your physical controller from the dropdown menu.
 2. **Button Mapping:** Map your physical button numbers to the virtual Xbox layout.  
-   * *Tip:* Open [Gamepad Tester](https://gamepad-tester.com/) in a browser to easily identify your controller's button index numbers.
+   * *Tip:* Open [Gamepad Tester](https://gamepad-tester.net/) in a browser to easily identify your controller's button index numbers.
 3. **Optional Settings:**
    * Enable Deadzone configuration and adjust the inner/outer sliders if needed.
    * Enable **High Performance Mode** if you require maximum stick responsiveness.
@@ -67,5 +67,5 @@ To ensure proper functionality without input conflicts, please install the follo
    * Use **NEW** to create a profile or **DEL** to delete unwanted profiles.
 5. **Start Engine:**
    * Click **START**. The virtual Xbox 360 controller will be created.
-   * Test inputs on [Gamepad Tester](https://gamepad-tester.com/). Verify that the Xbox 360 virtual controller responds smoothly without double inputs.
+   * Test inputs on [Gamepad Tester](https://gamepad-tester.net/). Verify that the Xbox 360 virtual controller responds smoothly without double inputs.
    * Click **STOP** when you are finished using the program.
