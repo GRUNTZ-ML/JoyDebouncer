@@ -1,74 +1,71 @@
 # JoyDebouncer
 <img width="530" height="571" alt="image" src="https://github.com/user-attachments/assets/91ac7190-dcf0-4414-b116-d9a58dda9cd5" />
 
-> **Note จากผู้สร้าง:**  
-> โปรเจกต์นี้สร้างขึ้นจากมุมมองของ "ผู้ใช้งานทั่วไปที่ไม่ได้เรียนจบหรือเป็นโปรแกรมเมอร์" โดยมีวัตถุประสงค์เพื่อแก้ไขปัญหาการใช้งานส่วนตัว โค้ดทั้งหมดในโปรเจกต์นี้ได้รับการพัฒนาและเขียนขึ้นโดยใช้ **AI (Gemini)** คอยช่วยเขียน แนะนำ และปรับแก้ตามฟังก์ชันที่ต้องการครับ
+> **Note from the Creator:**  
+> This project was created from the perspective of a **regular user without a computer science background or professional coding experience**, created solely to solve a personal controller issue. All code in this project was developed, written, and refined with the help of **AI (Google Gemini)** to achieve the desired features.  
+>  
+> *This is a personal hobby project. Pull Requests and Issue reports are not actively reviewed or maintained.*
 
----
-JoyDebouncer เป็นโปรแกรม Utility สำหรับแก้ปัญหาจอยปุ่มเบิ้ล หรือ Double input ที่โอกาสเจอค่อนข้างบ่อยกับจอยเกมที่ใช้มานาน หากไม่สามารถหาซ่อมหรือเปลี่ยนยางรองตรงรุ่นได้
-## 🛠️ หลักการทำงาน (How It Works)
-
-โปรแกรมจะรับสัญญาณ (Input) จากจอยเกมจริงของคุณ เข้ามากรองสัญญาณที่เกิดขึ้นถี่หรือเร็วผิดปกติ (Debounce) จากนั้นจะส่งสัญญาณที่ถูกกรองเรียบร้อยแล้วไปยัง **จอยจำลอง (Virtual Controller)** ในระบบ เพื่อส่งต่อไปยังตัวเกมอีกทีหนึ่ง
-
-[จอยเกมจริง (DInput)] ──> [JoyDebouncer (Grip & Filter)] ──> [จอยจำลอง (Virtual Xbox 360)] ──> [ตัวเกม / Steam]
-
+**JoyDebouncer** is a Windows utility designed to fix button chattering (double input) issues—a common problem with older or worn-out game controllers when replacement rubber pads or repair parts are unavailable.
 
 ---
 
-## ✨ ฟีเจอร์หลัก (Features)
+## 🛠️ How It Works
+
+JoyDebouncer captures raw inputs from your physical controller (DirectInput), filters out rapid, unintentional duplicate presses (Debounce), and forwards the cleaned input to a **Virtual Xbox 360 Controller**. Games and applications only read from this virtual controller.
+---
+
+## ✨ Features
 
 ### 🎯 Main Feature
-* **Debounce Interval:** กำหนดเวลาที่ต้องการหน่วงหรือกรอง Input ซ้ำในหน่วยมิลลิวินาที (ms) ค่าเริ่มต้นคือ **50 ms**
-  * *ตัวอย่าง:* หากจอยจริงส่งสัญญาณกดปุ่มเดิมซ้ำกันภายในเวลาที่น้อยกว่า 50 ms โปรแกรมจะถือว่าเป็นปุ่มเบิ้ล และจะปฏิเสธไม่ส่งสัญญาณนั้นไปยังจอยจำลอง
+* **Debounce Interval:** Set the suppression window for duplicate inputs in milliseconds (ms). The default is `50 ms`.  
+  * *Example:* If your physical button registers multiple presses within 50 ms, JoyDebouncer considers it a hardware glitch/double input and passes only a single press to the virtual controller.
 
-### ⚙️ Sub Features
-* **Select Target Joystick:** สามารถเลือกชื่อจอยจริงที่ต้องการใช้งานได้โดยตรง แก้ปัญหาเวอร์ชันเก่าที่ระบบจะดักจับเฉพาะจอยหมายเลข 1 เท่านั้น หมดปัญหาเรื่องจอยสลับลำดับเมื่อเชื่อมต่อหลายตัว
-* **Button Mapping:** ระบบแมปตำแหน่งปุ่มจากจอยจริง (DirectInput) ให้ตรงกับปุ่มของจอยจำลองได้อย่างถูกต้อง เพื่อรองรับจอยต่างยี่ห้อที่มีรหัสปุ่มไม่ตรงกัน
-* **Inner / Outer Deadzone Configuration:** ปรับตั้งค่า Deadzone ของแกนอนาล็อกสำหรับจอยจำลองได้ทั้งช่วงด้านในและด้านนอก เหมาะสำหรับจอย 3rd Party ที่ไม่มีซอฟต์แวร์ปรับ Deadzone มาให้ (เลือกเปิด/ปิดการคำนวณได้)
-* **High Performance Mode:** เพิ่มความลื่นไหลในการเคลื่อนไหวของแกนอนาล็อก
-  * *ผลการทดสอบ:* จากการวัดด้วย GamepadLa (บนจอย Polling Rate 1000Hz)
-    * **โหมดปกติ:** Polling Rate อยู่ที่ ~600-700Hz (กิน CPU ประมาณ 2-3%)
-    * **โหมด High Performance:** Polling Rate สูงถึง ~900-1000Hz (กิน CPU ประมาณ 8-9% บน Ryzen 5 7600)
-* **Profile Management:** บันทึกและโหลดการตั้งค่าทั้งหมดแยกเป็นโปรไฟล์ตามชื่อที่ต้องการได้ เพื่อเปลี่ยนสลับการตั้งค่าให้เหมาะกับจอยคนละตัวหรือเกมแต่ละประเภทได้ทันที
-
----
-
-## 📋 สิ่งที่ต้องเตรียมก่อนใช้งาน (Prerequisites)
-
-เพื่อให้โปรแกรมทำงานได้สมบูรณ์ กรุณาติดตั้งซอฟต์แวร์เสริมดังต่อไปนี้:
-
-1. **[ViGEmBus Driver](https://github.com/nefarius/ViGEmBus/releases):** จำเป็นต้องมีสำหรับใช้สร้างจอยจำลอง (Virtual Xbox 360) ขึ้นในระบบ
-2. **[HidHide](https://github.com/nefarius/HidHide/releases):** ซอฟต์แวร์สำหรับซ่อนจอยจริงไม่ให้ระบบ เกม หรือ Steam มองเห็น เพื่อป้องกันอาการจอยซ้อน (Double Controller Input)
-3. **จอยเกมที่รองรับโหมด DirectInput (DInput):**
-   > ⚠️ **ข้อจำกัดสำคัญ:** เนื่องจากโหมด XInput ไม่สามารถซ่อนสัญญาณจาก Steam ผ่าน HidHide ได้อย่างสมบูรณ์ จึงจำเป็นต้องปรับจอยเกมให้อยู่ในโหมด **DirectInput (DInput)** เท่านั้น เพื่อให้ระบบซ่อนจอยทำงานได้ถูกต้อง
+### ⚙️ Additional Features
+* **Select Target Joystick:** Choose specific physical joysticks directly from a dropdown menu. This solves issues where legacy apps only bind to Device #1, preventing input conflicts when multiple controllers are connected.
+* **Button Mapping:** Map individual physical buttons (DirectInput) to match standard Xbox 360 virtual layout. Great for 3rd-party gamepads with non-standard button indexes.
+* **Inner / Outer Deadzone Configuration:** Customize analog stick inner and outer deadzones for the virtual controller. Ideal for controllers lacking vendor software support. *(Can be toggled On/Off)*.
+* **High Performance Mode:** Boosts analog responsiveness for ultra-smooth movement.
+  * *Benchmark Results (Measured via GamepadLa on a 1000Hz Polling Rate controller):*
+    * **Normal Mode:** Polling rate ~600–700Hz (~2–3% CPU usage).
+    * **High Performance Mode:** Polling rate up to ~900–1000Hz (~8–9% CPU usage on Ryzen 5 7600).
+* **Profile Management:** Save, load, and manage custom configurations for different gamepads or game genres.
 
 ---
 
-## 📖 วิธีการใช้งาน (Step-by-Step Guide)
+## 📋 Prerequisites
 
-### ขั้นตอนที่ 1: การเซ็ตอัพและซ่อนจอยจริง (HidHide Setup)
-1. ติดตั้ง **ViGEmBus Driver** และ **HidHide** ให้เรียบร้อย
-2. เสียบจอยเกมและปรับให้อยู่ในโหมด **DirectInput (DInput)**
-3. เปิดโปรแกรม **HidHide Configuration Client** ขึ้นมา
-4. ค้นหาชื่อจอยจริงของคุณในรายการ ติ๊กเลือกให้ขึ้น **รูปกุญแจสีแดง 🔒** แล้วติ๊กถูกที่ช่อง **Enable device hiding** (มุมซ้ายล่าง)
-5. ถอดสาย/ปิดจอย แล้วเชื่อมต่อใหม่อีกครั้งเพื่อให้การซ่อนมีผล
-6. ไปที่แท็บ **Applications** ใน HidHide แล้วเพิ่มโปรแกรม `JoyDebouncer.exe` เข้าไปในรายการ เพื่ออนุญาตให้ JoyDebouncer มองเห็นจอยจริงได้เพียงโปรแกรมเดียว  
-   *(หรือเลือกใช้ออปชัน **Inverse cloak** แล้วใส่ชื่อโปรแกรมอื่นๆ ที่ต้องการซ่อนแทน)*
-7. **การตรวจสอบ:** เปิด Steam เข้าไปที่ `Settings` -> `Controller` หากไม่พบชื่อจอยจริงแสดงว่าซ่อนสำเร็จเรียบร้อย
+To ensure proper functionality without input conflicts, please install the following required software:
+
+1. **[ViGEmBus Driver](https://github.com/nefarius/ViGEmBus):** Required to create and manage the Virtual Xbox 360 Controller in Windows.
+2. **[HidHide](https://github.com/nefarius/HidHide):** Hides your physical controller from Windows, Steam, and games to prevent **Double Controller Input**.
+3. **Gamepad running in DirectInput (DInput) mode:**  
+   > ⚠️ **Important Limitation:** Controllers running in **XInput mode cannot be completely hidden from Steam via HidHide**. You **must** set your physical controller to **DirectInput (DInput)** mode for device hiding to work correctly.
 
 ---
 
-### ขั้นตอนที่ 2: การตั้งค่าโปรแกรมหลัก (JoyDebouncer)
-1. เปิดโปรแกรม **JoyDebouncer** แล้วเลือกจอยจริงจาก Dropdown List ที่ต้องการใช้งาน
-2. **แมปปุ่ม (Button Mapping):** ตั้งค่าปุ่มกดของจอยจริงให้ตรงกับจอยจำลอง 
-   * *ทริค:* สามารถเปิดเว็บ [Gamepad Tester](https://gamepad-tester.net/) ควบคู่กันไปเพื่อดูว่าปุ่มที่เรากดบนจอยจริงตรงกับ Button Index หมายเลขอะไร
-3. **ปรับแต่งเพิ่มเติม (Optional):**
-   * หากต้องการตั้งค่า Deadzone ให้ติ๊กเปิดใช้งานแล้วปรับสไลเดอร์เปอร์เซ็นต์ตามต้องการ
-   * หากต้องการความลื่นไหลสูงสุดของอนาล็อก สามารถติ๊กเปิด **High Performance Mode** ได้
-4. **การบันทึก Profile:**
-   * เมื่อตั้งค่าเสร็จแล้วให้กด **SAVE** ทุกครั้ง หากไม่กดเซฟ ค่าที่ปรับใหม่อาจไม่ส่งผลทำงาน
-   * สามารถกด **NEW** เพื่อสร้างโปรไฟล์ใหม่ หรือกด **DEL** เพื่อลบโปรไฟล์ที่ไม่ต้องการได้
-5. **เริ่มใช้งาน:**
-   * กดปุ่ม **START** โปรแกรมจะสร้างจอยจำลอง Xbox 360 ขึ้นมาในระบบ
-   * ทดสอบการทำงานได้ที่เว็บ [Gamepad Tester](https://gamepad-tester.net/) โดยลองกดปุ่มจอยจริง แล้วสังเกตว่าจอยจำลอง Xbox 360 ทำงานถูกต้องและไม่มีอาการปุ่มเบิ้ลหรือไม่
-   * เมื่อเลิกใช้งาน ให้กดปุ่ม **STOP** เพื่อหยุดการทำงานและคืนค่าระบบ
+## 📖 Step-by-Step Guide
+
+### Step 1: HidHide Setup (Hide Physical Controller)
+1. Install both **ViGEmBus Driver** and **HidHide**.
+2. Connect your controller and switch it to **DirectInput (DInput)** mode.
+3. Open **HidHide Configuration Client**.
+4. Locate your physical controller in the list, check it so a **Red Lock icon** 🔒 appears, and check **Enable device hiding** (bottom-left corner).
+5. Unplug/turn off your controller, then reconnect it for the hiding rule to apply.
+6. Go to the **Applications** tab in HidHide and add `JoyDebouncer.exe` to allow JoyDebouncer access to the physical controller. *(Alternatively, use the Inverse cloak option and select the apps you wish to hide instead).*
+7. **Verification:** Open Steam -> *Settings* -> *Controller*. If your physical controller name does **not** appear, it is successfully hidden!
+
+### Step 2: Configuring JoyDebouncer
+1. Launch **JoyDebouncer** and select your physical controller from the dropdown menu.
+2. **Button Mapping:** Map your physical button numbers to the virtual Xbox layout.  
+   * *Tip:* Open [Gamepad Tester](https://gamepad-tester.com/) in a browser to easily identify your controller's button index numbers.
+3. **Optional Settings:**
+   * Enable Deadzone configuration and adjust the inner/outer sliders if needed.
+   * Enable **High Performance Mode** if you require maximum stick responsiveness.
+4. **Saving Profiles:**
+   * Click **SAVE** to apply and save your profile. Unsaved changes will not persist.
+   * Use **NEW** to create a profile or **DEL** to delete unwanted profiles.
+5. **Start Engine:**
+   * Click **START**. The virtual Xbox 360 controller will be created.
+   * Test inputs on [Gamepad Tester](https://gamepad-tester.com/). Verify that the Xbox 360 virtual controller responds smoothly without double inputs.
+   * Click **STOP** when you are finished using the program.
