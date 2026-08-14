@@ -1,5 +1,6 @@
 # JoyDebouncer
 <img width="530" height="571" alt="image" src="https://github.com/user-attachments/assets/91ac7190-dcf0-4414-b116-d9a58dda9cd5" />
+
 **JoyDebouncer** is a Windows utility designed to fix button chattering (double input) issues—a common problem with older or worn-out game controllers when replacement rubber pads or repair parts are unavailable.
 
 > **Note from the Creator:**  
