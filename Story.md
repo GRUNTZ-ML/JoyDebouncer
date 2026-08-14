@@ -124,7 +124,7 @@ Over time, as I used the app daily, I added several quality-of-life features:
 *  **Profile System:** Similar to *MSI Afterburner*, allowing users to save and quickly load custom configurations for different gamepads or game genres.
 *  **Custom Button Mapping:** Different controllers handle DInput differently (for example, Gamepad Tester reads some gamepads as PS4/PS5 layouts). Adding a manual remapping feature ensures compatibility across various third-party controllers.
 *  **Deadzone Configuration:** Added while using a GameSir T3 Lite controller, which lacks vendor software for adjusting deadzones. I personally prefer a lower Outer Deadzone on the left stick so character movement triggers faster without pushing the stick all the way to the edge. *(If your controller already has hardware/software deadzone settings, you can simply toggle this feature off).*
-*  **High Performance Mode:** Boosts polling responsiveness. Standard mode runs around `600–700Hz` (~2–3% CPU usage), while High Performance mode reaches `900–1000Hz` (~8–9% CPU usage on a Ryzen 5 7600). The stick movement feels slightly smoother in tests, though for most casual games, the default mode works just fine.
+*  **High Performance Mode:** Boosts polling responsiveness. Standard mode runs around `600–700Hz` (~2–3% CPU usage), while High Performance mode reaches `900–1000Hz` (~8–9% CPU usage on a Ryzen 5 7600). The stick movement feels slightly smoother in tests, though for most games, the default mode works just fine.
 
 ---
 
