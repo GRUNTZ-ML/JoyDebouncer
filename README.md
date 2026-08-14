@@ -5,6 +5,8 @@
 > This project was created from the perspective of a **regular user without a computer science background or professional coding experience**, created solely to solve a personal controller issue. All code in this project was developed, written, and refined with the help of **AI (Google Gemini)** to achieve the desired features.  
 >  
 > *This is a personal hobby project. Pull Requests and Issue reports are not actively reviewed or maintained.*
+> 
+> 📖 **Read the development story:** [Behind the Scenes](./Story.md)
 
 **JoyDebouncer** is a Windows utility designed to fix button chattering (double input) issues—a common problem with older or worn-out game controllers when replacement rubber pads or repair parts are unavailable.
 
