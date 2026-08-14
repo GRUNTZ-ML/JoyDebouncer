@@ -19,9 +19,9 @@ Usually, the solutions are:
 
 Trying to ignore it and play through it gets infuriating. Buying a brand-new controller feels like a waste when everything else on the gamepad works perfectly.
 
-Yup... this exact spare-part dilemma happened to my own controller.
+Yup... this exact spare-part dilemma happened to my own controller... That's 8BitDo Ultimate 2 Wireless
 
-My controller was 1 year and 3 months old with moderate daily use. The **ABXY** buttons started double-registering. It didn't happen every single time, but when it did, it instantly ruined my mood. Aside from that, every stick and trigger was still in top shape.
+it was 1 year and 3 months old with moderate daily use. The **ABXY** buttons started double-registering. It didn't happen every single time, but when it did, it instantly ruined my mood. Aside from that, every stick and trigger was still in top shape.
 
 So I thought:
 > *"Is there a way to filter input signals so that rapid, consecutive presses are ignored?"*
