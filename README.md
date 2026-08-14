@@ -69,3 +69,38 @@ To ensure proper functionality without input conflicts, please install the follo
    * Click **START**. The virtual Xbox 360 controller will be created.
    * Test inputs on [Gamepad Tester](https://gamepad-tester.net/). Verify that the Xbox 360 virtual controller responds smoothly without double inputs.
    * Click **STOP** when you are finished using the program.
+
+
+ ## ⚠️ Known Limitations & Trade-offs
+
+Since this project was built as a personal solution with the help of AI, there are several known technical limitations. Experienced developers are more than welcome to fork and improve these areas!
+
+### 1. Polling Rate Consistency & CPU Usage
+* Depending on the polling rate measurement tool used (e.g., GamepadLa / Polling 2), the polling rate can fluctuate:
+  * **Normal Mode:** Stable around `600–700 Hz` (~2–3% CPU usage).
+  * **High Performance Mode:** Reaches up to `900–1000 Hz` (or higher in raw ticks), providing noticeably smoother stick responsiveness close to a native controller, at the cost of higher CPU usage (~8–9% on a Ryzen 5 7600).
+* Stick movement interpolation/resolution might not be 100% identical to a native controller due to execution loop timing and DInput-to-Virtual Xbox translation.
+
+### 2. No Haptic Feedback / Vibration (Rumble)
+* Force feedback (vibration) is currently not supported. 
+* The virtual controller does not pass rumble signals back to the hidden physical controller. Attempting to bridge rumble feedback produced unstable code, so this feature was omitted.
+
+### 3. Requires DirectInput (DInput) Mode
+* Physical controllers must be set to **DInput** mode so HidHide can effectively block them from Windows and Steam.
+* Older DirectInput API handles mapping differently than modern XInput, but as long as Steam reads the generated Virtual Xbox 360 controller, it functions seamlessly for games.
+
+### 4. Digital Triggers Only (No Analog Trigger Support)
+* Triggers (LT/RT) are currently mapped as **Digital Buttons** (ON/OFF only).
+* Progressive analog trigger input (e.g., half-press for throttle control in racing games) is not supported in the current codebase.
+
+---
+
+> 📝 **Tested Hardware & Polling Rate Note:**  
+> This application was tested using two physical controllers: the **8BitDo Ultimate 2C Wireless** and the **GameSir T3 Lite Tegenaria** (both natively supporting a 1000Hz polling rate). The reported virtual controller polling rates were measured based on these specific devices.  
+> 
+> Please note that results may vary for other controller models with natively higher or lower polling rates. It remains unverified whether the virtual controller will match or maintain these exact polling rates when paired with different physical hardware.
+
+---
+
+> 💡 **Summary for Users:**  
+> Despite these limitations, **JoyDebouncer completely eliminates button chattering/double inputs**. For most casual and action games, it offers a solid and reliable experience without needing hardware repairs!
