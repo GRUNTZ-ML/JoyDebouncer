@@ -5,6 +5,9 @@
 > This project was created from the perspective of a **regular user without a computer science background or professional coding experience**, created solely to solve a personal controller issue. All code in this project was developed, written, and refined with the help of **AI (Google Gemini)** to achieve the desired features.  
 >  
 > *This is a personal hobby project. Pull Requests and Issue reports are not actively reviewed or maintained.*
+>
+> Note on Language:
+> Most of the English text in this project was originally drafted in my native language and translated using AI, as I struggle with expressing my thoughts smoothly in English. Writing it all by myself would have been a complete mess to read!
 > 
 > 📖 **Read the development story:** [Behind the Scenes](./Story.md)
 
