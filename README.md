@@ -96,7 +96,7 @@ Since this project was built as a personal solution with the help of AI, there a
 ---
 
 > 📝 **Tested Hardware & Polling Rate Note:**  
-> This application was tested using two physical controllers: the **8BitDo Ultimate 2C Wireless** and the **GameSir T3 Lite Tegenaria** (both natively supporting a 1000Hz polling rate). The reported virtual controller polling rates were measured based on these specific devices.  
+> This application was tested using two physical controllers: the **8BitDo Ultimate 2 Wireless** and the **GameSir T3 Lite Tegenaria** (both natively supporting a 1000Hz polling rate). The reported virtual controller polling rates were measured based on these specific devices.  
 > 
 > Please note that results may vary for other controller models with natively higher or lower polling rates. It remains unverified whether the virtual controller will match or maintain these exact polling rates when paired with different physical hardware.
 
