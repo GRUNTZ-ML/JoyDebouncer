@@ -135,9 +135,3 @@ Sure, setting this up requires a few extra steps—installing drivers, keeping t
 But compared to the peace of mind of **never dealing with double inputs again**, it has been 100% worth it for me. In actual gameplay, the experience feels virtually identical to playing on a native, fully functional controller.
 
 I hope this little utility helps anyone out there who is facing the exact same controller headache!
-
-```
-
-But compared to the peace of mind of never dealing with double inputs again, it has been 100% worth it for me. In actual gameplay, the experience feels virtually identical to playing on a native, fully functional controller.
-
-I hope this little utility helps anyone out there who is facing the exact same controller headache!
